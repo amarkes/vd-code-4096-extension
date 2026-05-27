@@ -1,0 +1,35 @@
+{
+  "name": "game-4096",
+  "displayName": "4096 Game",
+  "description": "A 4096 puzzle game playable inside VSCode",
+  "version": "0.0.1",
+  "publisher": "antonio",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "game4096.open",
+        "title": "Open 4096 Game",
+        "category": "4096"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./ && cd webview-ui && npm run build",
+    "compile:ext": "tsc -p ./",
+    "compile:webview": "cd webview-ui && npm run build",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --no-dependencies --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^3.0.0"
+  }
+}
