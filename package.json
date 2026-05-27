@@ -3,7 +3,7 @@
   "displayName": "4096 Game",
   "description": "A 4096 puzzle game playable inside VSCode",
   "version": "0.0.1",
-  "publisher": "antonio",
+  "publisher": "puzle4096game",
   "engines": {
     "vscode": "^1.85.0"
   },
