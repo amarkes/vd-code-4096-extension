@@ -95,6 +95,13 @@ body {
   color: #e06060;
 }
 
+.score-winrate {
+  font-size: 0.65rem;
+  color: #6ddc8b;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
+}
+
 .btn-new {
   background: #f0c000;
   color: #1e1e1e;

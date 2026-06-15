@@ -2,6 +2,10 @@
 
 All notable changes to this extension are documented here.
 
+## [1.1.1] - 2026-06-15
+- add win rate
+
+
 ## [1.1.0] - 2026-06-15
 - add win and lose screen
 

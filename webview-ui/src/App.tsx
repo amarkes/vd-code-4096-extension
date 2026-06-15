@@ -98,6 +98,9 @@ export function App() {
           <div className="score-box">
             <div className="score-label">Wins</div>
             <div className="score-value score-wins">{wins}</div>
+            <div className="score-winrate">
+              {wins + losses > 0 ? `${Math.round((wins / (wins + losses)) * 100)}%` : '--'}
+            </div>
           </div>
           <div className="score-box">
             <div className="score-label">Losses</div>
