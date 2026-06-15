@@ -44,7 +44,7 @@ export class GamePanel {
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
 
     this._panel.webview.onDidReceiveMessage(
-      (message: { command: string; score?: number }) => {
+      (message: { command: string; score?: number; wins?: number; losses?: number }) => {
         switch (message.command) {
           case 'saveScore':
             if (typeof message.score === 'number') {
@@ -59,6 +59,22 @@ export class GamePanel {
             this._panel.webview.postMessage({ command: 'bestScore', score: best });
             break;
           }
+          case 'getStats': {
+            const wins = this._context.globalState.get<number>('wins', 0);
+            const losses = this._context.globalState.get<number>('losses', 0);
+            this._panel.webview.postMessage({ command: 'stats', wins, losses });
+            break;
+          }
+          case 'saveWins':
+            if (typeof message.wins === 'number') {
+              this._context.globalState.update('wins', message.wins);
+            }
+            break;
+          case 'saveLosses':
+            if (typeof message.losses === 'number') {
+              this._context.globalState.update('losses', message.losses);
+            }
+            break;
         }
       },
       null,

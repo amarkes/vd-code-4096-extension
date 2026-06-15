@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { vscode } from './vscode';
 import { Board } from './components/Board';
 import { useGame } from './hooks/useGame';
@@ -7,13 +7,21 @@ import type { Direction } from './types';
 export function App() {
   const { tiles, score, gameOver, won, move, reset } = useGame();
   const [bestScore, setBestScore] = useState(0);
+  const [wins, setWins] = useState(0);
+  const [losses, setLosses] = useState(0);
   const [keepPlaying, setKeepPlaying] = useState(false);
+  const countedRef = useRef(false);
 
   useEffect(() => {
     vscode.postMessage({ command: 'getBestScore' });
+    vscode.postMessage({ command: 'getStats' });
     const handler = (event: MessageEvent) => {
       const msg = event.data;
       if (msg.command === 'bestScore') setBestScore(msg.score as number);
+      if (msg.command === 'stats') {
+        setWins(msg.wins as number);
+        setLosses(msg.losses as number);
+      }
     };
     window.addEventListener('message', handler);
     return () => window.removeEventListener('message', handler);
@@ -25,6 +33,28 @@ export function App() {
       vscode.postMessage({ command: 'saveScore', score });
     }
   }, [score, bestScore]);
+
+  useEffect(() => {
+    if (won && !countedRef.current) {
+      countedRef.current = true;
+      setWins(prev => {
+        const next = prev + 1;
+        vscode.postMessage({ command: 'saveWins', wins: next });
+        return next;
+      });
+    }
+  }, [won]);
+
+  useEffect(() => {
+    if (gameOver && !countedRef.current) {
+      countedRef.current = true;
+      setLosses(prev => {
+        const next = prev + 1;
+        vscode.postMessage({ command: 'saveLosses', losses: next });
+        return next;
+      });
+    }
+  }, [gameOver]);
 
   const handleKey = useCallback((e: KeyboardEvent) => {
     const map: Record<string, Direction> = {
@@ -45,6 +75,7 @@ export function App() {
   function handleNewGame() {
     reset();
     setKeepPlaying(false);
+    countedRef.current = false;
   }
 
   const showWinOverlay = won && !keepPlaying;
@@ -63,6 +94,14 @@ export function App() {
           <div className="score-box">
             <div className="score-label">Best</div>
             <div className="score-value score-best">{bestScore}</div>
+          </div>
+          <div className="score-box">
+            <div className="score-label">Wins</div>
+            <div className="score-value score-wins">{wins}</div>
+          </div>
+          <div className="score-box">
+            <div className="score-label">Losses</div>
+            <div className="score-value score-losses">{losses}</div>
           </div>
         </div>
         <button className="btn-new" onClick={handleNewGame}>New Game</button>

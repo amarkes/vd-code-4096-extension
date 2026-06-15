@@ -74,6 +74,22 @@ class GamePanel {
                     this._panel.webview.postMessage({ command: 'bestScore', score: best });
                     break;
                 }
+                case 'getStats': {
+                    const wins = this._context.globalState.get('wins', 0);
+                    const losses = this._context.globalState.get('losses', 0);
+                    this._panel.webview.postMessage({ command: 'stats', wins, losses });
+                    break;
+                }
+                case 'saveWins':
+                    if (typeof message.wins === 'number') {
+                        this._context.globalState.update('wins', message.wins);
+                    }
+                    break;
+                case 'saveLosses':
+                    if (typeof message.losses === 'number') {
+                        this._context.globalState.update('losses', message.losses);
+                    }
+                    break;
             }
         }, null, this._disposables);
     }

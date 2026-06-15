@@ -60,8 +60,8 @@ body {
   background: #2d2d2d;
   border: 1px solid #3a3a3a;
   border-radius: 6px;
-  padding: 8px 16px;
-  min-width: 90px;
+  padding: 8px 10px;
+  min-width: 68px;
   text-align: center;
 }
 
@@ -85,6 +85,14 @@ body {
 
 .score-best {
   color: #89d4ff;
+}
+
+.score-wins {
+  color: #6ddc8b;
+}
+
+.score-losses {
+  color: #e06060;
 }
 
 .btn-new {
