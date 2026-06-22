@@ -17,7 +17,8 @@ function randomTile(grid: number[][]): { r: number; c: number; value: number } |
       if (grid[r][c] === 0) empty.push({ r, c });
   if (!empty.length) return null;
   const { r, c } = empty[Math.floor(Math.random() * empty.length)];
-  return { r, c, value: 2 };
+  // 75% gera 2, 25% gera 4 — encher o tabuleiro mais rápido aumenta a dificuldade.
+  return { r, c, value: Math.random() < 0.15 ? 4 : 2 };
 }
 
 function slideRow(row: number[]): { result: number[]; score: number; changed: boolean } {

@@ -66,7 +66,8 @@ export class Game {
     const empty = this.emptyCells();
     if (empty.length === 0) { return; }
     const { row, col } = empty[Math.floor(Math.random() * empty.length)];
-    this.board[row][col] = 2;
+    // 75% gera 2, 25% gera 4 — encher o tabuleiro mais rápido aumenta a dificuldade.
+    this.board[row][col] = Math.random() < 0.15 ? 4 : 2;
     this.tileIds[row][col] = ++tileIdCounter;
   }
 
